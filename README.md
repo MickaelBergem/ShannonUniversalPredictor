@@ -2,6 +2,8 @@
 
 Predicts the bit you are about to type, because hey, you are a poor entropy source ;)
 
+Your goal is to get the lowest predictability score possible.
+
 ## Python implementation
 
 ```bash
@@ -15,6 +17,10 @@ python3 algorithm.py -p random
 # Or load from a file
 python3 algorithm.py -p file -i example.txt
 ```
+
+Demo with manual input:
+
+![Shannon Universal Predictor](demo-py.gif)
 
 ## C++ implementation
 

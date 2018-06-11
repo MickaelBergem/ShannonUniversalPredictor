@@ -16,6 +16,14 @@ def prompt_fake():
         yield int(bit)
 
 
+class colors:
+    reset = '\033[0m'
+    bold = '\033[01m'
+
+    red = '\033[31m'
+    green = '\033[32m'
+
+
 def start_algorithm(prompter, longest_suffix_algorithm):
     """ Run the given algorithm with the given prompter """
 
@@ -30,10 +38,15 @@ def start_algorithm(prompter, longest_suffix_algorithm):
         history.append(input_bit)
 
         if prediction is not None:
-            print(f"\tPrediction was {prediction}, ", end="")
+            success = False
             if prediction == input_bit:
+                success = True
                 predictions_sucess += 1
-            print("success_rate {}%".format(round(predictions_sucess * 100. / predictions_total)))
+
+            print(f"\t{colors.green if success else colors.red}Prediction was {colors.bold}{prediction}{colors.reset}, ", end="")
+
+            success_rate = round(predictions_sucess * 100. / predictions_total)
+            print(f"success_rate {colors.bold}{success_rate}%{colors.reset}")
 
         (max_depth, marker_index, best_suffix) = longest_suffix_algorithm(history)
 
