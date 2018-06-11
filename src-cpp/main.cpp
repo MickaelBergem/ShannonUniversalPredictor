@@ -26,14 +26,14 @@ struct STNode {
      [start; end) interval specifies the edge,
      by which the node is connected to its parent node.
      */
-    
+
     int start, end, slink;
     int next[std::numeric_limits<T>::max()];
-    
+
     int edge_length(SuffixTree<T> *owner) {
         return min(end, owner->pos + 1) - start;
     }
-    
+
     std::string toString(SuffixTree<T> *owner, int num) {
         std::ostringstream o;
         for (int i = start; i < start + edge_length(owner); i ++) {
@@ -47,14 +47,14 @@ struct STNode {
 template <typename T>
 class SuffixTree {
 public:
-    
+
     std::vector<STNode<T>> tree;
     std::vector<T> text;
     int root, last_added, pos, needSL, remainder, active_node, active_e, active_len;
-    
+
     static const int oo = 0xFFFFFFF;
 
-    
+
     SuffixTree() {
         needSL = 0;
         last_added = 0;
@@ -67,7 +67,7 @@ public:
         STNode<T> n = {0};
         tree.push_back(n); //dummy node 0, root will be at 1
     }
-    
+
     int new_node(int start, int end = oo) {
         STNode<T> nd;
         nd.start = start;
@@ -79,16 +79,16 @@ public:
         last_added ++;
         return last_added;
     }
-    
+
     T active_edge() {
         return text[active_e];
     }
-    
+
     void add_SL(int node) {
         if (needSL > 0) tree[needSL].slink = node;
         needSL = node;
     }
-    
+
     bool walk_down(int node) {
         if (active_len >= tree[node].edge_length(this)) {
             active_e += tree[node].edge_length(this);
@@ -98,7 +98,7 @@ public:
         }
         return false;
     }
-    
+
     void extend(T c) {
         text.push_back(c);
         pos ++;
@@ -183,7 +183,7 @@ bool predictBit(std::vector<bool> &previous) {
 void st_test() {
     char in = 's';
     SuffixTree<unsigned char> st = SuffixTree<unsigned char>();
-    
+
     while (in != 'q') {
         std::cin >> in;
         st.extend(in);
@@ -196,7 +196,7 @@ void bool_predictor_run() {
     char in = 's';
     int successes = 0;
     SuffixTree<bool> st = SuffixTree<bool>();
-    
+
     while (in != 'q') {
         std::cin >> in;
         bool nextbit = true;// predictBit(st.text);
@@ -208,7 +208,7 @@ void bool_predictor_run() {
             }
             std::cout << "Got " << in << ", predicted " << (int) nextbit;
             std::cout << " success rate " << (float) successes * 100.0 / (float) st.text.size() << "%" << std::endl;
-            
+
         } else if (in == '1') {
             //st.extend(true);
             if (nextbit == true) {
@@ -218,7 +218,7 @@ void bool_predictor_run() {
             std::cout << " success rate " << (float) successes * 100.0 / (float) st.text.size() << "%" << std::endl;
         } else if (in == 'q') {
             std::cout << "Quitting." << std::endl;
-            std::cout << st.toDot() << std::endl;
+            // std::cout << st.toDot() << std::endl;
         } else {
             std::cout << "Unrecognized input." << std::endl;
         }
@@ -227,8 +227,10 @@ void bool_predictor_run() {
 }
 
 int main(int argc, const char * argv[]) {
-    
-    st_test();
+
+    std::cout << "Type a random suite of 1 and 0. Type Enter at any time to see your score." << std::endl;
+    std::cout << "Type q to quit or press Ctrl+C." << std::endl;
+    bool_predictor_run();
 
     return 0;
 }

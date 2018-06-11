@@ -2,7 +2,7 @@
 Base algorithm
 """
 import sys
-from binarytree import Node
+
 from prompt_console import prompt_bit as prompt_bit_console
 from prompt_file import prompt_file as prompt_bit_file
 from prompt_random import prompt_bit as prompt_bit_random
@@ -30,16 +30,14 @@ def start_algorithm(prompter, longest_suffix_algorithm):
         history.append(input_bit)
 
         if prediction is not None:
-            print("\tPrediction was {}, ".format(prediction), end="")
+            print(f"\tPrediction was {prediction}, ", end="")
             if prediction == input_bit:
                 predictions_sucess += 1
-            print("success_rate {}%".format(
-                round(predictions_sucess * 100. / predictions_total)))
+            print("success_rate {}%".format(round(predictions_sucess * 100. / predictions_total)))
 
         (max_depth, marker_index, best_suffix) = longest_suffix_algorithm(history)
 
-        print("\tDepth: {}, marker_index={} suffix={}".format(
-            max_depth, marker_index, best_suffix))
+        print(f"\tDepth: {max_depth}, marker_index={marker_index} suffix={best_suffix}")
 
         # print("New history: {}".format(history))
 
@@ -63,16 +61,25 @@ if __name__ == '__main__':
     }
 
     parser = argparse.ArgumentParser(description="Shannon Universal Predictor.")
-    parser.add_argument('--algorithm', '-a', default='naive',
-                        choices=algorithms.keys(),
-                        help='the filename of the communities PNG graph'
-                             ' to be written')
-    parser.add_argument('--prompter', '-p', default='console',
-                        choices=prompters.keys(),
-                        help='the prompter to use')
-    parser.add_argument('--input-file', '-i', help='the file to read from '
-                        'when using the '
-                        'file prompter')
+    parser.add_argument(
+        '--algorithm',
+        '-a',
+        default='naive',
+        choices=algorithms.keys(),
+        help='the filename of the communities PNG graph to be written',
+    )
+    parser.add_argument(
+        '--prompter',
+        '-p',
+        default='console',
+        choices=prompters.keys(),
+        help='the prompter to use',
+    )
+    parser.add_argument(
+        '--input-file',
+        '-i',
+        help='the file to read from when using the file prompter',
+    )
     args = parser.parse_args()
 
     longest_suffix_algorithm = algorithms[args.algorithm]
